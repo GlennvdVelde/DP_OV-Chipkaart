@@ -1,5 +1,6 @@
 package presentatielaag.dto;
 
+import data.AdresDAO;
 import data.ReizigerDAO;
 import domein.Reiziger;
 
@@ -9,6 +10,7 @@ import java.util.List;
 
 public class ReizigerDAOPsql implements ReizigerDAO {
     public Connection conn;
+    public AdresDAO adao;
     public ReizigerDAOPsql(Connection conn){
         this.conn = conn;
     }
