@@ -8,8 +8,19 @@ import java.util.Properties;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
-        ReizigerDAO rdao = new ReizigerDAOPsql(){};
+        ReizigerDAO rdao = new ReizigerDAOPsql(getConnection()){};
         testReizigerDAO(rdao);
+    }
+
+    private static Connection getConnection() throws SQLException{
+        String url = "jdbc:postgresql://localhost:5001/ovchip";
+        String user = "postgres";
+        String password = "CB500f1999";
+        return DriverManager.getConnection(url, user, password);
+    }
+
+    private static void closeConnection() throws SQLException{
+        getConnection().close();
     }
 
     private static void testReizigerDAO (ReizigerDAO rdao) throws SQLException {

@@ -8,12 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReizigerDAOPsql implements ReizigerDAO {
-    String url = "jdbc:postgresql://localhost:5001/ovchip";
-    String user = "postgres";
-    String password = "CB500f1999";
-    private final Connection conn = DriverManager.getConnection(url, user, password);
-
-    public ReizigerDAOPsql() throws SQLException {}
+    public Connection conn;
+    public ReizigerDAOPsql(Connection conn){
+        this.conn = conn;
+    }
 
     @Override
     public boolean save(Reiziger reiziger) {
@@ -44,7 +42,7 @@ public class ReizigerDAOPsql implements ReizigerDAO {
         try {
             Statement statement = conn.createStatement();
 
-            String sql = String.format("UPDATE Reiziger SET voorletters = 'P' WHERE reiziger_id = 77");
+            String sql = String.format("UPDATE Reiziger SET voorletters = '%s' WHERE reiziger_id = '%d'", reiziger.getVoorletters(), reiziger.getId());
 
             statement.execute(sql);
             System.out.println("Reiziger: " + reiziger.toString() + " is updated");
