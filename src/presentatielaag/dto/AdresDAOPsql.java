@@ -71,25 +71,26 @@ public class AdresDAOPsql implements AdresDAO {
     }
 
     @Override
-    public Adres findById(Adres adres) {
+    public Adres findById(int id) {
         try {
             Statement statement = conn.createStatement();
 
-            ResultSet result = statement.executeQuery(String.format("SELECT FROM adres "
-                    + "WHERE adres_id = '%d' ", adres.getAdres_Id()));
+            ResultSet result = statement.executeQuery(String.format("SELECT * FROM adres "
+                    + "WHERE adres_id = %d", id));
 
-            return new Adres(
-                    result.getInt("adres_id"),
-                    result.getString("postcode"),
-                    result.getString("huisnummer"),
-                    result.getString("straat"),
-                    result.getString("woonplaats"),
-                    result.getInt("reiziger_id"));
-
+            if(result.next()) {
+                return new Adres(
+                        result.getInt("adres_id"),
+                        result.getString("postcode"),
+                        result.getString("huisnummer"),
+                        result.getString("straat"),
+                        result.getString("woonplaats"),
+                        result.getInt("reiziger_id"));
+            }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            return null;
         }
+        return null;
     }
 
     @Override
@@ -97,8 +98,8 @@ public class AdresDAOPsql implements AdresDAO {
         try {
             Statement statement = conn.createStatement();
 
-            ResultSet result = statement.executeQuery(String.format("SELECT FROM adres "
-                + "WHERE adres_id = '%d'", reiziger.getId()));
+            ResultSet result = statement.executeQuery(String.format("SELECT * FROM adres "
+                + "WHERE adres_id = %d", reiziger.getId()));
 
             return new Adres(
                     result.getInt("adres_id"),

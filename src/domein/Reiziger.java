@@ -10,7 +10,6 @@ public class Reiziger {
     public String tussenvoegsel;
     public String achternaam;
     public Date geboortedatum;
-    private static List<Reiziger> reizigerList = new ArrayList<>();
 
     public Reiziger(int id, String vl, String tsvg, String achternm, Date geboorte){
         this.id = id;
@@ -18,7 +17,6 @@ public class Reiziger {
         this.tussenvoegsel = tsvg;
         this.achternaam = achternm;
         this.geboortedatum = geboorte;
-        reizigerList.add(this);
     }
 
     public int getId() {

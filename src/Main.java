@@ -85,11 +85,15 @@ public class Main {
         adresList = adao.findAll();
         System.out.println(adresList.size() + " Adressen gevonden in de Database");
 
-//         Delete een bestaand Adres in de database
+        // Delete een bestaand Adres in de database
         System.out.println("\n[TEST] Deleten van een bestaand adres in de Database");
         adao.delete(a1_new);
         adresList = adao.findAll();
         System.out.println(adresList.size() + " Adressen gevonden in de Database");
+
+        // Vind een adres aan de hand van het adres_id
+        System.out.println("\n[TEST] met gebruik van findByID() een adres opzoeken");
+        adao.findById(33);
     }
 }
 
