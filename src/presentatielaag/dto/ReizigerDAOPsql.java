@@ -11,12 +11,22 @@ import java.util.List;
 public class ReizigerDAOPsql implements ReizigerDAO {
     public Connection conn;
     public AdresDAO adao;
+
     public ReizigerDAOPsql(Connection conn){
         this.conn = conn;
     }
 
+    public ReizigerDAOPsql(Connection conn, AdresDAO adao) throws SQLException{
+        this.conn = conn;
+        this.adao = adao;
+    }
+
     @Override
     public boolean save(Reiziger reiziger) {
+        if(reiziger.getAdres() != null){
+            adao.save(reiziger.getAdres());
+        }
+
         try {
             Statement statement = conn.createStatement();
 
@@ -27,11 +37,11 @@ public class ReizigerDAOPsql implements ReizigerDAO {
             Date geboortedg = reiziger.getGeboortedatum();
 
             String sql = String.format("insert into reiziger "
-                       + "(reiziger_id, voorletters, tussenvoegsel, achternaam, geboortedatum) "
-                       + "values('%s', '%s', '%s', '%s', '%s')", id, voorl, tussenvg, achternm, geboortedg.toString());
+                    + "(reiziger_id, voorletters, tussenvoegsel, achternaam, geboortedatum) "
+                    + "values('%s', '%s', '%s', '%s', '%s')", id, voorl, tussenvg, achternm, geboortedg.toString());
 
             statement.execute(sql);
-            System.out.println("Reiziger: " + reiziger.toString() + " is toegevoegd aan de Database");
+
             return true;
         }catch(SQLException e){
             System.out.println(e.getMessage());
@@ -77,14 +87,15 @@ public class ReizigerDAOPsql implements ReizigerDAO {
         try {
             Statement statement = conn.createStatement();
 
-            ResultSet result = statement.executeQuery(String.format("SELECT FROM reiziger "
+            ResultSet result = statement.executeQuery(String.format("SELECT * FROM reiziger "
                     + "WHERE reiziger_id = %d", id));
-
-            return new Reiziger(result.getInt("reiziger_id"),
-                    result.getString("voorletters"),
-                    result.getString("tussenvoegsel"),
-                    result.getString("achternaam"),
-                    result.getDate(String.valueOf("geboortedatum")));
+            while(result.next()) {
+                return new Reiziger(result.getInt("reiziger_id"),
+                        result.getString("voorletters"),
+                        result.getString("tussenvoegsel"),
+                        result.getString("achternaam"),
+                        result.getDate(String.valueOf("geboortedatum")));
+            }
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
@@ -97,8 +108,8 @@ public class ReizigerDAOPsql implements ReizigerDAO {
         try{
             Statement statement = conn.createStatement();
 
-            ResultSet result = statement.executeQuery(String.format("SELECT FROM reiziger "+
-                    "WHERE geboortedatum = %s", java.sql.Date.valueOf(datum)));
+            ResultSet result = statement.executeQuery(String.format("SELECT * FROM reiziger "+
+                    "WHERE geboortedatum = '%s'", datum));
 
             while(result.next()){
                 Reiziger reiziger = new Reiziger(
@@ -106,7 +117,7 @@ public class ReizigerDAOPsql implements ReizigerDAO {
                         result.getString("voorletters"),
                         result.getString("tussenvoegsel"),
                         result.getString("achternaam"),
-                        result.getDate(String.valueOf("geboortedatum")));
+                        result.getDate("geboortedatum"));
                 reizigerList.add(reiziger);
             }
             return reizigerList;

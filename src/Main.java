@@ -2,6 +2,7 @@ import data.AdresDAO;
 import data.ReizigerDAO;
 import domein.Adres;
 import domein.Reiziger;
+import org.w3c.dom.ls.LSOutput;
 import presentatielaag.dto.AdresDAOPsql;
 import presentatielaag.dto.ReizigerDAOPsql;
 
@@ -11,10 +12,11 @@ import java.util.Properties;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
-        ReizigerDAO rdao = new ReizigerDAOPsql(getConnection()){};
         AdresDAO adao = new AdresDAOPsql(getConnection());
-        testReizigerDAO(rdao);
+        ReizigerDAO rdao = new ReizigerDAOPsql(getConnection(), adao){};
+//        testReizigerDAO(rdao);
         testAdresDAO(adao);
+//        testFindByReiziger(rdao);
     }
 
     private static Connection getConnection() throws SQLException{
@@ -28,40 +30,48 @@ public class Main {
         getConnection().close();
     }
 
-    private static void testReizigerDAO (ReizigerDAO rdao) throws SQLException {
-        System.out.println("\n---------- Test ReizigerDAO -------------");
+//    private static void testReizigerDAO (ReizigerDAO rdao) throws SQLException {
+//        System.out.println("\n---------- Test ReizigerDAO -------------");
+//
+//        // Haal alle reizigers op uit de database
+//        List<Reiziger> reizigers = rdao.findAll();
+//        System.out.println("\n[Test] ReizigerDAO.findAll() geeft de volgende reizigers:");
+//        for (Reiziger r : reizigers) {
+//            System.out.println(r);
+//        }
+//        System.out.println();
+//
+//        // Maak een nieuwe reiziger aan en persisteer deze in de database
+//        String gbdatum = "1981-03-14";
+//        Reiziger sietske = new Reiziger(77, "S", "", "Boers", java.sql.Date.valueOf(gbdatum));
+//        System.out.print("\n[Test] Eerst " + reizigers.size() + " reizigers, na ReizigerDAO.save() ");
+//        rdao.save(sietske);
+//        reizigers = rdao.findAll();
+//        System.out.println(reizigers.size() + " reizigers\n");
+//
+//        // Update een bestaand reiziger met andere waarden
+//        Reiziger peter = new Reiziger(77, "P", "", "boers", java.sql.Date.valueOf(gbdatum));
+//        System.out.println("\n[TEST] Update test S. Boers moet P. Boers worden");
+//        rdao.update(peter);
+//        reizigers = rdao.findAll();
+//        System.out.println(reizigers.size() + " reizigers\n");
+//
+//        //Delete een bestaand reiziger uit de Database
+//        System.out.println("\n[TEST] Update test of het deleten van een reiziger werkt");
+//        rdao.delete(peter);
+//        reizigers = rdao.findAll();
+//        System.out.println(reizigers.size() + " reizigers\n");
+//
+//        //FindByID voor reiziger
+//        System.out.println("\n[TEST] Zoekt een reiziger met FindByID");
+//        System.out.println(rdao.findById(1));
+//
+//        //FindByGdatum voor Reiziger
+//        System.out.println("\n[TEST] Zoekt een reiziger object aan de hand van Geboortedatum");
+//        System.out.println(rdao.findByGbdatum("2002-09-17"));
+//    }
 
-        // Haal alle reizigers op uit de database
-        List<Reiziger> reizigers = rdao.findAll();
-        System.out.println("\n[Test] ReizigerDAO.findAll() geeft de volgende reizigers:");
-        for (Reiziger r : reizigers) {
-            System.out.println(r);
-        }
-        System.out.println();
-
-        // Maak een nieuwe reiziger aan en persisteer deze in de database
-        String gbdatum = "1981-03-14";
-        Reiziger sietske = new Reiziger(77, "S", "", "Boers", java.sql.Date.valueOf(gbdatum));
-        System.out.print("\n[Test] Eerst " + reizigers.size() + " reizigers, na ReizigerDAO.save() ");
-        rdao.save(sietske);
-        reizigers = rdao.findAll();
-        System.out.println(reizigers.size() + " reizigers\n");
-
-        // Update een bestaand reiziger met andere waarden
-        Reiziger peter = new Reiziger(77, "P", "", "boers", java.sql.Date.valueOf(gbdatum));
-        System.out.println("\n[TEST] Update test S. Boers moet P. Boers worden");
-        rdao.update(peter);
-        reizigers = rdao.findAll();
-        System.out.println(reizigers.size() + " reizigers\n");
-
-        //Delete een bestaand reiziger uit de Database
-        System.out.println("\n[TEST] Update test of het deleten van een reiziger werkt");
-        rdao.delete(peter);
-        reizigers = rdao.findAll();
-        System.out.println(reizigers.size() + " reizigers\n");
-    }
-
-    private static void testAdresDAO(AdresDAO adao) throws SQLException {
+    public static void testAdresDAO(AdresDAO adao) throws SQLException{
         System.out.println("\n---------- Test AdresDAO -------------");
 
         //Haal alle Adressen uit de database
@@ -73,7 +83,7 @@ public class Main {
 
         //Voeg een adres toe aan de database
         System.out.println("\n[TEST] test of een adres gepersisteerd wordt in de Database");
-        Adres a1 = new Adres(24, "2894BD", "11", "Suikerlaan", "Utrecht", 5);
+        Adres a1 = new Adres(24, "2894BD", "11", "Suikerlaan", "Utrecht", 6);
         adao.save(a1);
         adresList = adao.findAll();
         System.out.println(adresList.size() + " Adressen gevonden in de Database");
@@ -93,7 +103,23 @@ public class Main {
 
         // Vind een adres aan de hand van het adres_id
         System.out.println("\n[TEST] met gebruik van findByID() een adres opzoeken");
-        adao.findById(33);
+        System.out.println(adao.findById(1));
+
+        //findByReiziger()
+        System.out.println("\n[TEST] findByReiziger()");
+        Reiziger reiziger = new Reiziger(69, "V", "van der", "Plas", Date.valueOf("1999-07-07"));
+        System.out.println(adao.findByReiziger(reiziger));
     }
+
+//    public static void testFindByReiziger(ReizigerDAO rdao) throws SQLException{
+//        // FindByReiziger() Test voor Adres
+//        System.out.println("\n[TEST] test de FindByReiziger()");
+//        Reiziger reiziger = new Reiziger(69, "V", "van der", "Plas", Date.valueOf("1999-07-07"));
+//        Adres adres = new Adres(6, "2804HB", "11", "Pokkeplein", "Haastrecht", reiziger.getId());
+//        reiziger.setAdres(adres);
+//        rdao.save(reiziger);
+//
+//
+//    }
 }
 
