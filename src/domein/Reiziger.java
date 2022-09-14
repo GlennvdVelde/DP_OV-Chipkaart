@@ -11,6 +11,7 @@ public class Reiziger {
     public String achternaam;
     public Date geboortedatum;
     public Adres adres;
+    public List<OVChipkaart> ov_chipkaarten_list = new ArrayList<>();
 
     public Reiziger(int id, String vl, String tsvg, String achternm, Date geboorte){
         this.id = id;
@@ -27,6 +28,16 @@ public class Reiziger {
         this.achternaam = achternm;
         this.geboortedatum = geboorte;
         this.adres = adres;
+    }
+
+    public Reiziger(int id, String vl, String tsvg, String achternm, Date geboorte, Adres adres, OVChipkaart ovChipkaart) {
+        this.id = id;
+        this.voorletters = vl;
+        this.tussenvoegsel = tsvg;
+        this.achternaam = achternm;
+        this.geboortedatum = geboorte;
+        this.adres = adres;
+        this.ov_chipkaarten_list.add(ovChipkaart);
     }
 
     public int getId() {
@@ -79,6 +90,14 @@ public class Reiziger {
 
     public void setAdres(Adres adres) {
         this.adres = adres;
+    }
+
+    public List<OVChipkaart> getOv_chipkaarten_list() {
+        return ov_chipkaarten_list;
+    }
+
+    public void setOv_chipkaarten_list(List<OVChipkaart> ov_chipkaarten_list) {
+        this.ov_chipkaarten_list = ov_chipkaarten_list;
     }
 
     @Override

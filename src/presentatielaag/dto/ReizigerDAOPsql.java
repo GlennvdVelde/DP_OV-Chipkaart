@@ -26,7 +26,6 @@ public class ReizigerDAOPsql implements ReizigerDAO {
         if(reiziger.getAdres() != null){
             adao.save(reiziger.getAdres());
         }
-
         try {
             Statement statement = conn.createStatement();
 
@@ -51,13 +50,15 @@ public class ReizigerDAOPsql implements ReizigerDAO {
 
     @Override
     public boolean update(Reiziger reiziger) {
+        if(reiziger.getAdres() != null){
+            adao.update(reiziger.getAdres());
+        }
         try {
             Statement statement = conn.createStatement();
 
             String sql = String.format("UPDATE Reiziger SET voorletters = '%s' WHERE reiziger_id = '%d'", reiziger.getVoorletters(), reiziger.getId());
 
             statement.execute(sql);
-            System.out.println("Reiziger: " + reiziger.toString() + " is updated");
             return true;
         }catch(SQLException e){
             System.out.println(e.getMessage());
@@ -67,14 +68,16 @@ public class ReizigerDAOPsql implements ReizigerDAO {
 
     @Override
     public boolean delete(Reiziger reiziger) {
+        if(reiziger.getAdres() != null){
+            adao.delete(reiziger.getAdres());
+        }
         try {
             Statement statement = conn.createStatement();
 
             String sql = String.format("DELETE FROM reiziger "
-                    + "WHERE reiziger_id = %s", reiziger.getId());
+                    + "WHERE reiziger_id = '%s'", reiziger.getId());
 
             statement.execute(sql);
-            System.out.println("Reiziger: " + reiziger.toString() + " is verwijderd uit de Database");
             return true;
         }catch(SQLException e){
             System.out.println(e.getMessage());
@@ -88,7 +91,7 @@ public class ReizigerDAOPsql implements ReizigerDAO {
             Statement statement = conn.createStatement();
 
             ResultSet result = statement.executeQuery(String.format("SELECT * FROM reiziger "
-                    + "WHERE reiziger_id = %d", id));
+                    + "WHERE reiziger_id = '%d'", id));
             while(result.next()) {
                 return new Reiziger(result.getInt("reiziger_id"),
                         result.getString("voorletters"),
@@ -140,7 +143,7 @@ public class ReizigerDAOPsql implements ReizigerDAO {
                         result.getString("voorletters"),
                         result.getString("tussenvoegsel"),
                         result.getString("achternaam"),
-                        result.getDate(String.valueOf("geboortedatum")));
+                        result.getDate("geboortedatum"));
                 reizigerList.add(reiziger);
             }
             return reizigerList;
