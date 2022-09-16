@@ -67,12 +67,21 @@ public class Adres {
 
     @Override
     public String toString(){
+        if(getReiziger() != null){
+            return "Adres: "
+                    + this.adres_id + " "
+                    + this.postcode + " "
+                    + this.huisnummer + " "
+                    + this.straat + " "
+                    + this.woonplaats + " "
+                    + this.reiziger;
+        }else{
         return "Adres: "
                 + this.adres_id + " "
                 + this.postcode + " "
                 + this.huisnummer + " "
                 + this.straat + " "
-                + this.woonplaats + " "
-                + this.reiziger;
+                + this.woonplaats;
+        }
     }
 }

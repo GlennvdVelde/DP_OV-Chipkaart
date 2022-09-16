@@ -60,7 +60,7 @@ public class OVChipkaart {
     @Override
     public String toString(){
         if(this.reiziger != null) {
-            return "\nKaartnummer: " + this.kaart_nummer + " saldo: " + this.saldo + " gekoppeld aan: " + this.reiziger;
+            return "\nKaartnummer: " + this.kaart_nummer + " saldo: " + this.saldo + " gekoppeld aan: " + this.reiziger.toString() + "\n";
         }else{
             return "\nKaartnummer: " + this.kaart_nummer + " saldo: " + this.saldo;
         }

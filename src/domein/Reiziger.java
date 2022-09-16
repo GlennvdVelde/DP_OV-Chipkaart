@@ -30,6 +30,15 @@ public class Reiziger {
         this.adres = adres;
     }
 
+    public Reiziger(int id, String vl, String tsvg, String achternm, Date geboorte, OVChipkaart ovChipkaart){
+        this.id = id;
+        this.voorletters = vl;
+        this.tussenvoegsel = tsvg;
+        this.achternaam = achternm;
+        this.geboortedatum = geboorte;
+        this.ov_chipkaarten_list.add(ovChipkaart);
+    }
+
     public Reiziger(int id, String vl, String tsvg, String achternm, Date geboorte, Adres adres, OVChipkaart ovChipkaart) {
         this.id = id;
         this.voorletters = vl;
@@ -102,10 +111,18 @@ public class Reiziger {
 
     @Override
     public String toString(){
-        if(this.adres != null){
+        if(this.adres != null) {
             return "\nReiziger_ID: " + this.id + " "
-                    + "Naam: " + this.voorletters + " "  + this.tussenvoegsel + " " + this.achternaam + " "
+                    + "Naam: " + this.voorletters + " " + this.tussenvoegsel + " " + this.achternaam + " "
                     + "Geboortedatum: " + this.geboortedatum + " Woonplaats: " + this.adres;
+        }else if(!this.ov_chipkaarten_list.isEmpty()) {
+            return "\nReiziger_ID: " + this.id + " "
+                    + "Naam: " + this.voorletters + " " + this.tussenvoegsel + " " + this.achternaam + " "
+                    + "Geboortedatum: " + this.geboortedatum + " OV-Chipkaarten: " + this.ov_chipkaarten_list;
+        }else if(this.adres != null && !this.ov_chipkaarten_list.isEmpty()){
+            return "\nReiziger_ID: " + this.id + " "
+                    + "Naam: " + this.voorletters + " " + this.tussenvoegsel + " " + this.achternaam + " "
+                    + "Geboortedatum: " + this.geboortedatum + " Woonplaats: " + this.adres + " OV-Chipkaarten: " + this.ov_chipkaarten_list;
         }else {
             return "\nReiziger_ID: " + this.id + " "
                     + "Naam: " + this.voorletters + " " + this.tussenvoegsel + " " + this.achternaam + " "

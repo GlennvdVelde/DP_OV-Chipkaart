@@ -134,8 +134,19 @@ public class Main {
         odao.save(ovChipkaart);
 
         //TEST de findAll() functie voor OVChipkaart
-//        System.out.println("[TEST] findAll() test voor Chipkaart");
-//        odao.findAll();
+        System.out.println("[TEST] findAll() test voor Chipkaart");
+        System.out.println(odao.findAll());
+
+        //TEST de DELETE functie voor OVChipkaart en hoort ook de gekoppelde reiziger te verwijderen
+        System.out.println("[TEST] Delete() test voor chipkaart en moet ook reiziger verwijderen");
+        odao.delete(ovChipkaart);
+        System.out.println(odao.findAll());
+
+        //TEST de UPDATE functie voor OVChipkaart
+        System.out.println("[TEST] Update() voor Chipkaart");
+        OVChipkaart ovChipkaart2 = new OVChipkaart(9999, Date.valueOf("2024-06-06"),1, 8999.99, reiziger);
+        odao.update(ovChipkaart2);
+        System.out.println(odao.findAll());
     }
 
 }

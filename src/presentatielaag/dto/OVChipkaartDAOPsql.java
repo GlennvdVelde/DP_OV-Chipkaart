@@ -50,11 +50,11 @@ public class OVChipkaartDAOPsql implements OVChipkaartDAO {
             Statement statement = conn.createStatement();
 
             String sql = String.format("UPDATE ov_chipkaart " +
-                    "SET kaart_nummer = '%d'," +
-                    "geldig_tot = '%s'," +
-                    "klasse = '%d'," +
-                    "saldo = '%f'," +
-                    "WHERE reiziger_id = '%d'",
+                    "SET kaart_nummer = '%d', " +
+                    "geldig_tot = '%s', " +
+                    "klasse = '%d', " +
+                    "saldo = '%f'" +
+                    "WHERE kaart_nummer = '%d'",
 
                     ovChipkaart.getKaart_nummer(),
                     ovChipkaart.getGeldig_tot(),
