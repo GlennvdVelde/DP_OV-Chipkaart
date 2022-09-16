@@ -23,12 +23,15 @@ public class AdresDAOPsql implements AdresDAO {
 
     @Override
     public boolean save(Adres adres) {
+        if(adres.getReiziger() != null){
+            rdao.save(adres.getReiziger());
+        }
         try {
             Statement statement = conn.createStatement();
 
             String sql = String.format("INSERT INTO adres "
                     + "(adres_id, postcode, huisnummer, straat, woonplaats, reiziger_id) "
-                    + "VALUES('%d', '%s', '%s', '%s', '%s', '%d')", adres.getAdres_Id(), adres.getPostcode(), adres.getHuisnummer(), adres.getStraat(), adres.getWoonplaats(), adres.getReiziger_id());
+                    + "VALUES('%d', '%s', '%s', '%s', '%s', '%d')", adres.getAdres_Id(), adres.getPostcode(), adres.getHuisnummer(), adres.getStraat(), adres.getWoonplaats(), adres.getReiziger().getId());
             statement.execute(sql);
             return true;
         } catch (SQLException e) {
@@ -39,6 +42,9 @@ public class AdresDAOPsql implements AdresDAO {
 
     @Override
     public boolean update(Adres adres) {
+        if(adres.getReiziger() != null){
+            rdao.update(adres.getReiziger());
+        }
         try {
             Statement statement = conn.createStatement();
 
@@ -56,6 +62,9 @@ public class AdresDAOPsql implements AdresDAO {
 
     @Override
     public boolean delete(Adres adres) {
+        if(adres.getReiziger() != null){
+            rdao.delete(adres.getReiziger());
+        }
         try {
             Statement statement = conn.createStatement();
 

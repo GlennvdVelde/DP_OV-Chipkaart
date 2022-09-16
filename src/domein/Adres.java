@@ -57,12 +57,12 @@ public class Adres {
         this.woonplaats = woonplaats;
     }
 
-    public Reiziger getReiziger_id() {
+    public Reiziger getReiziger() {
         return reiziger;
     }
 
-    public void setReiziger_id(Reiziger reiziger_id) {
-        this.reiziger = reiziger_id;
+    public void setReiziger(Reiziger reiziger) {
+        this.reiziger = reiziger;
     }
 
     @Override
