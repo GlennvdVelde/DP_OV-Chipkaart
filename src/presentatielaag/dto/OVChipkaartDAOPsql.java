@@ -21,9 +21,6 @@ public class OVChipkaartDAOPsql implements OVChipkaartDAO {
 
     @Override
     public boolean save(OVChipkaart ovChipkaart) {
-        if(ovChipkaart.getReiziger() != null) {
-            rdao.save(ovChipkaart.getReiziger());
-        }
         try{
             Statement statement = conn.createStatement();
 
@@ -32,6 +29,7 @@ public class OVChipkaartDAOPsql implements OVChipkaartDAO {
                     "VALUES('%d', '%s', '%s', '%s', '%d')", ovChipkaart.getKaart_nummer(), ovChipkaart.getGeldig_tot(), ovChipkaart.getKlasse(), ovChipkaart.getSaldo(), ovChipkaart.reiziger.getId());
 
             statement.executeQuery(sql);
+            statement.close();
             return true;
         }catch(SQLException e){
             System.out.println(e.getMessage());
@@ -43,9 +41,6 @@ public class OVChipkaartDAOPsql implements OVChipkaartDAO {
 
     @Override
     public boolean update(OVChipkaart ovChipkaart) {
-        if(ovChipkaart.getReiziger() != null) {
-            rdao.update(ovChipkaart.getReiziger());
-        }
         try{
             Statement statement = conn.createStatement();
 
@@ -63,6 +58,7 @@ public class OVChipkaartDAOPsql implements OVChipkaartDAO {
                     ovChipkaart.reiziger.getId());
 
             statement.executeQuery(sql);
+            statement.close();
             return true;
         }catch(SQLException e){
             System.out.println(e.getMessage());
@@ -74,9 +70,6 @@ public class OVChipkaartDAOPsql implements OVChipkaartDAO {
 
     @Override
     public boolean delete(OVChipkaart ovChipkaart) {
-        if(ovChipkaart.getReiziger() != null) {
-            rdao.delete(ovChipkaart.getReiziger());
-        }
         try{
             Statement statement = conn.createStatement();
 
@@ -84,6 +77,7 @@ public class OVChipkaartDAOPsql implements OVChipkaartDAO {
                     "WHERE kaart_nummer = '%d'", ovChipkaart.getKaart_nummer());
 
             statement.executeQuery(sql);
+            statement.close();
             return true;
         }catch(SQLException e){
             System.out.println(e.getMessage());
@@ -94,20 +88,23 @@ public class OVChipkaartDAOPsql implements OVChipkaartDAO {
     }
 
     @Override
-    public OVChipkaart findByReiziger(Reiziger reiziger) {
+    public List<OVChipkaart> findByReiziger(Reiziger reiziger) {
+        List<OVChipkaart> ovChipkaartList = new ArrayList<>();
         try{
             Statement statement = conn.createStatement();
 
             ResultSet result = statement.executeQuery("SELECT * FROM ov_chipkaart WHERE reiziger_id = " + reiziger.getId());
-
-            if(result.next()){
-                return new OVChipkaart(
+            statement.close();
+            while(result.next()){
+                OVChipkaart ov = new OVChipkaart(
                     result.getInt("kaart_nummer"),
                     result.getDate("geldig_tot"),
                     result.getInt("klasse"),
                     result.getFloat("saldo"),
                     rdao.findById(reiziger.getId()));
+                ovChipkaartList.add(ov);
             }
+            return ovChipkaartList;
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }catch(Exception e){
@@ -123,7 +120,7 @@ public class OVChipkaartDAOPsql implements OVChipkaartDAO {
             Statement statement = conn.createStatement();
 
             ResultSet result = statement.executeQuery("SELECT * FROM ov_chipkaart");
-
+            statement.close();
             while(result.next()){
                 OVChipkaart ovChipkaart = new OVChipkaart(
                     result.getInt("kaart_nummer"),

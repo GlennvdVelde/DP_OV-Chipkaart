@@ -115,14 +115,17 @@ public class Reiziger {
             return "\nReiziger_ID: " + this.id + " "
                     + "Naam: " + this.voorletters + " " + this.tussenvoegsel + " " + this.achternaam + " "
                     + "Geboortedatum: " + this.geboortedatum + " Woonplaats: " + this.adres;
+
         }else if(!this.ov_chipkaarten_list.isEmpty()) {
             return "\nReiziger_ID: " + this.id + " "
                     + "Naam: " + this.voorletters + " " + this.tussenvoegsel + " " + this.achternaam + " "
                     + "Geboortedatum: " + this.geboortedatum + " OV-Chipkaarten: " + this.ov_chipkaarten_list;
+
         }else if(this.adres != null && !this.ov_chipkaarten_list.isEmpty()){
             return "\nReiziger_ID: " + this.id + " "
                     + "Naam: " + this.voorletters + " " + this.tussenvoegsel + " " + this.achternaam + " "
                     + "Geboortedatum: " + this.geboortedatum + " Woonplaats: " + this.adres + " OV-Chipkaarten: " + this.ov_chipkaarten_list;
+
         }else {
             return "\nReiziger_ID: " + this.id + " "
                     + "Naam: " + this.voorletters + " " + this.tussenvoegsel + " " + this.achternaam + " "

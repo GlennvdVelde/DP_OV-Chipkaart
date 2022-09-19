@@ -23,16 +23,14 @@ public class AdresDAOPsql implements AdresDAO {
 
     @Override
     public boolean save(Adres adres) {
-        if(adres.getReiziger() != null){
-            rdao.save(adres.getReiziger());
-        }
         try {
             Statement statement = conn.createStatement();
 
             String sql = String.format("INSERT INTO adres "
                     + "(adres_id, postcode, huisnummer, straat, woonplaats, reiziger_id) "
                     + "VALUES('%d', '%s', '%s', '%s', '%s', '%d')", adres.getAdres_Id(), adres.getPostcode(), adres.getHuisnummer(), adres.getStraat(), adres.getWoonplaats(), adres.getReiziger().getId());
-            statement.execute(sql);
+            statement.executeQuery(sql);
+            statement.close();
             return true;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -42,9 +40,6 @@ public class AdresDAOPsql implements AdresDAO {
 
     @Override
     public boolean update(Adres adres) {
-        if(adres.getReiziger() != null){
-            rdao.update(adres.getReiziger());
-        }
         try {
             Statement statement = conn.createStatement();
 
@@ -53,6 +48,7 @@ public class AdresDAOPsql implements AdresDAO {
                     + "WHERE adres_id = '%d'", adres.getPostcode(), adres.getHuisnummer(), adres.getStraat(), adres.getWoonplaats(), adres.getAdres_Id());
 
             statement.executeQuery(sql);
+            statement.close();
             return true;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -62,9 +58,6 @@ public class AdresDAOPsql implements AdresDAO {
 
     @Override
     public boolean delete(Adres adres) {
-        if(adres.getReiziger() != null){
-            rdao.delete(adres.getReiziger());
-        }
         try {
             Statement statement = conn.createStatement();
 
@@ -72,6 +65,7 @@ public class AdresDAOPsql implements AdresDAO {
                     + "WHERE adres_id = '%d'", adres.getAdres_Id());
 
             statement.executeQuery(sql);
+            statement.close();
             return true;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -86,7 +80,7 @@ public class AdresDAOPsql implements AdresDAO {
 
             ResultSet result = statement.executeQuery(String.format("SELECT * FROM adres "
                     + "WHERE adres_id = %d", id));
-
+            statement.close();
             while(result.next()) {
                 return new Adres(
                         result.getInt("adres_id"),
@@ -111,6 +105,7 @@ public class AdresDAOPsql implements AdresDAO {
 
             ResultSet result = statement.executeQuery(String.format("SELECT * FROM adres "
                 + "WHERE reiziger_id = %d", reiziger.getId()));
+            statement.close();
 
             while(result.next()) {
                 return new Adres(
@@ -134,6 +129,7 @@ public class AdresDAOPsql implements AdresDAO {
             Statement statement = conn.createStatement();
 
             ResultSet result = statement.executeQuery("SELECT * FROM adres");
+            statement.close();
 
             while(result.next()){
                 Adres adres = new Adres(
