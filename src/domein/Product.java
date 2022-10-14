@@ -1,16 +1,28 @@
 package domein;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Product {
     private int product_nummer;
     private String naam;
     private String beschrijving;
     private double prijs;
+    private List<OVChipkaart> ovChipkaartList = new ArrayList<>();
 
     public Product(int product_nummer, String naam, String beschrijving, double prijs){
         this.product_nummer = product_nummer;
         this.naam = naam;
         this.beschrijving = beschrijving;
         this.prijs = prijs;
+    }
+
+    public Product(int product_nummer, String naam, String beschrijving, double prijs, OVChipkaart ovChipkaart){
+        this.product_nummer = product_nummer;
+        this.naam = naam;
+        this.beschrijving = beschrijving;
+        this.prijs = prijs;
+        this.ovChipkaartList.add(ovChipkaart);
     }
 
     public int getProduct_nummer() {
@@ -45,8 +57,16 @@ public class Product {
         this.prijs = prijs;
     }
 
+    public List<OVChipkaart> getOvChipkaartList(){
+        return this.ovChipkaartList;
+    }
+
     @Override
     public String toString(){
-        return this.naam;
+        if(this.ovChipkaartList.isEmpty()) {
+            return this.naam;
+        }else{
+            return this.naam  + " " + this.ovChipkaartList;
+        }
     }
 }

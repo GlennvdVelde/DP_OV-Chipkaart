@@ -13,7 +13,10 @@ public class Reiziger {
     public Adres adres;
     public List<OVChipkaart> ov_chipkaarten_list = new ArrayList<>();
 
-    public Reiziger(int id, String vl, String tsvg, String achternm, Date geboorte){
+    public Reiziger() {
+    }
+
+    public Reiziger(int id, String vl, String tsvg, String achternm, Date geboorte) {
         this.id = id;
         this.voorletters = vl;
         this.tussenvoegsel = tsvg;
@@ -21,7 +24,7 @@ public class Reiziger {
         this.geboortedatum = geboorte;
     }
 
-    public Reiziger(int id, String vl, String tsvg, String achternm, Date geboorte, Adres adres){
+    public Reiziger(int id, String vl, String tsvg, String achternm, Date geboorte, Adres adres) {
         this.id = id;
         this.voorletters = vl;
         this.tussenvoegsel = tsvg;
@@ -30,7 +33,7 @@ public class Reiziger {
         this.adres = adres;
     }
 
-    public Reiziger(int id, String vl, String tsvg, String achternm, Date geboorte, OVChipkaart ovChipkaart){
+    public Reiziger(int id, String vl, String tsvg, String achternm, Date geboorte, OVChipkaart ovChipkaart) {
         this.id = id;
         this.voorletters = vl;
         this.tussenvoegsel = tsvg;
@@ -89,7 +92,7 @@ public class Reiziger {
         this.geboortedatum = geboortedatum;
     }
 
-    public String getNaam(){
+    public String getNaam() {
         return this.voorletters + this.tussenvoegsel + this.achternaam;
     }
 
@@ -110,23 +113,23 @@ public class Reiziger {
     }
 
     @Override
-    public String toString(){
-        if(this.adres != null) {
+    public String toString() {
+        if (this.adres != null) {
             return "\nReiziger_ID: " + this.id + " "
                     + "Naam: " + this.voorletters + " " + this.tussenvoegsel + " " + this.achternaam + " "
                     + "Geboortedatum: " + this.geboortedatum + " Woonplaats: " + this.adres;
 
-        }else if(!this.ov_chipkaarten_list.isEmpty()) {
+        } else if (!this.ov_chipkaarten_list.isEmpty()) {
             return "\nReiziger_ID: " + this.id + " "
                     + "Naam: " + this.voorletters + " " + this.tussenvoegsel + " " + this.achternaam + " "
                     + "Geboortedatum: " + this.geboortedatum + " OV-Chipkaarten: " + this.ov_chipkaarten_list;
 
-        }else if(this.adres != null && !this.ov_chipkaarten_list.isEmpty()){
+        } else if (this.adres != null && !this.ov_chipkaarten_list.isEmpty()) {
             return "\nReiziger_ID: " + this.id + " "
                     + "Naam: " + this.voorletters + " " + this.tussenvoegsel + " " + this.achternaam + " "
                     + "Geboortedatum: " + this.geboortedatum + " Woonplaats: " + this.adres + " OV-Chipkaarten: " + this.ov_chipkaarten_list;
 
-        }else {
+        } else {
             return "\nReiziger_ID: " + this.id + " "
                     + "Naam: " + this.voorletters + " " + this.tussenvoegsel + " " + this.achternaam + " "
                     + "Geboortedatum: " + this.geboortedatum;

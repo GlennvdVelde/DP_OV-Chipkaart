@@ -90,6 +90,7 @@ public class AdresDAOPsql implements AdresDAO {
                         result.getString("woonplaats"),
                         rdao.findById(result.getInt("reiziger_id")));
             }
+            result.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }catch (Exception e){
@@ -116,6 +117,7 @@ public class AdresDAOPsql implements AdresDAO {
                         result.getString("woonplaats"),
                         reiziger);
             }
+            result.close();
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
@@ -141,6 +143,7 @@ public class AdresDAOPsql implements AdresDAO {
                         rdao.findById(result.getInt("reiziger_id")));
                 adresList.add(adres);
             }
+            result.close();
             return adresList;
         }catch(SQLException e){
             System.out.println(e.getMessage());

@@ -1,5 +1,6 @@
 import data.AdresDAO;
 import data.OVChipkaartDAO;
+import data.ProductDAO;
 import data.ReizigerDAO;
 import domein.Adres;
 import domein.OVChipkaart;
@@ -7,6 +8,7 @@ import domein.Reiziger;
 import org.w3c.dom.ls.LSOutput;
 import presentatielaag.dto.AdresDAOPsql;
 import presentatielaag.dto.OVChipkaartDAOPsql;
+import presentatielaag.dto.ProductDAOPsql;
 import presentatielaag.dto.ReizigerDAOPsql;
 
 import java.sql.*;
@@ -16,8 +18,9 @@ import java.util.Properties;
 public class Main {
     public static void main(String[] args) throws SQLException {
         AdresDAO adao = new AdresDAOPsql(getConnection());
+        ProductDAO pdao = new ProductDAOPsql(getConnection());
         ReizigerDAO rdao = new ReizigerDAOPsql(getConnection(), adao);
-        OVChipkaartDAO odao = new OVChipkaartDAOPsql(getConnection(), rdao);
+        OVChipkaartDAO odao = new OVChipkaartDAOPsql(getConnection(), rdao, pdao);
 //        testReizigerDAO(rdao);
 //        testAdresDAO(adao);
         testOVChipkaartDAO(odao);
